@@ -1,5 +1,5 @@
 /*
-Copyright (©) 2017 Hannu Väisänen
+Copyright (©) 2017-2018 Hannu Väisänen
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -138,11 +138,10 @@ public class Matcher {
   public RE regex() {return re;}
 
 
-  /** Matches a string against the regular expression. 
+  /** Match a string against the regular expression.
    *
    * @return true if any part of the string matches the regular expression;
-   *         otherwise false. This is how {@code reg_*exec()}
-   * functions work in TRE.
+   *         otherwise false.
    */
   public boolean wmatch() {return re.wmatch (string, eflags);}
 
@@ -253,7 +252,7 @@ public class Matcher {
     reset();
     StringBuffer sb = new StringBuffer();
     while (find()) {
-      appendReplacement (sb, "X");
+      appendReplacement (sb, replacement);
     }
     appendTail (sb);
     return sb.toString();

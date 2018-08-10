@@ -15,12 +15,19 @@ More information is in javadocs.
 
 Example:
 ```java
-RE r = RE.compile (...);
-Matcher m = r.matcher (...);
-if (m.wmatch()) ...
+TRE.regaparams_t.ByValue p = new AparamsBuilder().cost_ins(1).cost_del(1).cost_subst(1)
+                     .max_cost(1).max_ins(1).max_del(1).max_subst(1).max_err(1).build();
+String s = "To be or not to be or bee.";
+RE re = RE.compile ("be", REG_EXTENDED, p);
+Matcher m = re.matcher (s);
+StringBuffer sb = new StringBuffer();
+while (m.find()) {
+  m.appendReplacement (sb, "X");
+}
+m.appendTail (sb);
 ```
 
-Compiling and installing: mvn install
+Compiling and installing:  mvn install
 
 Making documentation: mvn javadoc:javadoc
 
@@ -35,7 +42,7 @@ Maven dependency:
 ```
 
  
-Copyright (©) 2017 Hannu Väisänen
+Copyright (©) 2017-2018 Hannu Väisänen
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by

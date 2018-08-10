@@ -1,5 +1,5 @@
 /*
-Copyright (©) 2017 Hannu Väisänen
+Copyright (©) 2017-2018 Hannu Väisänen
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -35,7 +35,24 @@ import java.io.PrintStream;
  <a href = "http://laurikari.net/tre/">TRE</a>.<p>
 
  Regexp syntax is described in file {@code doc/tre-syntax.html} in the source distribution of
- <a href = "http://laurikari.net/tre/">TRE</a>.
+ <a href = "http://laurikari.net/tre/">TRE</a>.<p>
+
+You can use these bindigs directly like this
+<PRE>
+TRE lib = RE.getLib();
+regex_t preg = new tre.regex_t();
+int n = tre.tre_regwcomp (preg, ...);
+n = tre.tre_regwexec (preg, ...);
+</PRE>
+
+but it is better to use classes {@link RE} and {@link Matcher}<p>
+
+<PRE>
+RE r = RE.compile (...);
+Matcher m = r.matcher (...);
+if (m.matches()) ...
+</PRE>
+See file {@code src/test/java/peltomaa/javatre/JavaTRETest.java} for examples.
 */
 public interface TRE extends Library {
 
@@ -187,10 +204,7 @@ public interface TRE extends Library {
   }
 
 
-// JavaTRE uses only wchar_t* which is WString in JNA.
-//
-// tre_regn... functions are not here and neither is
-// struct tre_str_source nor function reguexec().
+// We use only wchar_t* which is WString in JNA.
 
   public int tre_regcomp  (regex_t preg,  String regex, int cflags);
   public int tre_regwcomp (regex_t preg, WString regex, int cflags);

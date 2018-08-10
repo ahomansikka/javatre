@@ -1,5 +1,5 @@
 /*
-Copyright (©) 2017 Hannu Väisänen
+Copyright (©) 2017-2018 Hannu Väisänen
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -105,7 +105,7 @@ class FuzzyRegex extends RE {
     regmatch_t.ByReference[] p = getPmatch (match);
 
     for (int i = 0; i < match.nmatch.intValue(); i++) {
-//      System.out.println ("F " + start(i) + " " + end(i) + " " + offset + " " + pattern().substring(offset)); // + " " + group(i));
+//      System.out.println ("F " + start(i) + " " + end(i) + " " + offset + " " + string.substring(offset) + " " + pmatch[i].rm_so + " " + pmatch[i].rm_eo + " " + group(i));
       if (p[i].rm_so >= 0) {
         p[i].rm_so += offset;
         p[i].rm_eo += offset;

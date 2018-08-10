@@ -1,5 +1,5 @@
 /*
-Copyright (©) 2017 Hannu Väisänen
+Copyright (©) 2017-2018 Hannu Väisänen
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -181,7 +181,7 @@ public abstract class RE {
   }
 
 
-  /** Compiles an approximate (fuzzy) {@code regex} and returns {@code true} if {@code string} matches it.<p>
+  /** Compiles an approximate {@code regex} and returns {@code true} if {@code string} matches it.<p>
    *
    * This code is equal to
    *
@@ -305,19 +305,16 @@ public abstract class RE {
 
 
   /**
-   * Splits {@code string} around matches of this regex. If regex does not match any part
-   * of the {@code string}, returns {@code string}.<p>
+   * Splits a string around matches of this regex.<p>
    *
-   * For xamples, see {@code void test7()}, {@code void test8()} and {@code void test9()}
-   * in {@code peltomaa.javatre.JavaTRETest.java}. If this is a fuzzy regex, results may
-   * not be what you expect. See {@code void test9()}.
+   * For an example, see {@code void test7()} in {@code peltomaa.javatre.JavaTRETest.java}.
    *
    * @param string String to split.
    * @param eflags Execution flags.
    */
   public String[] split (String string, int eflags)
   {
-    List<String> list = new ArrayList<String>();
+    List<String> list = new ArrayList();
     Matcher m = matcher (string, eflags);
 
     int offset = 0;
@@ -325,10 +322,6 @@ public abstract class RE {
     while (m.find()) {
       list.add (string.substring (offset, m.start()));
       offset = m.end();
-    }
-
-    if (list.size() == 0) {
-      list.add (string);
     }
 
     return list.toArray (new String[0]);
@@ -390,7 +383,7 @@ public abstract class RE {
   public synchronized static TRE getLib()
   {
     if (library == null) {
-      addLibraryPath ("/usr/local/lib");
+      NativeLibrary.addSearchPath ("tre", "/usr/local/lib");
       for (String libName : LIBRARY_NAMES) {
         NativeLibrary nativeLibrary = tryLoadLibrary (libName);
         if (nativeLibrary != null) {
@@ -398,7 +391,7 @@ public abstract class RE {
           return (TRE)library;
         }
       }
-      throw new UnsatisfiedLinkError ("Could not load the native component of JavaTRE.");
+      throw new UnsatisfiedLinkError ("Could not load the native component of javatre.");
     }
     return (TRE)library;
   }
@@ -406,8 +399,7 @@ public abstract class RE {
 
   /**
    * Sets the explicit path to the folder containing shared library files.
-   *
-   * @param libraryPath Path to folder.
+   * @param libraryPath
    */
   public static final void addLibraryPath (String libraryPath)
   {

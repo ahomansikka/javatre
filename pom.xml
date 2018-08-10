@@ -33,7 +33,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
-        <version>3.5.1</version>
+        <version>3.6.0</version>
         <configuration>
           <source>1.8</source>
           <target>1.8</target>
@@ -44,6 +44,24 @@
           <compilerArgs>
             <arg>-Xlint:all</arg>
           </compilerArgs>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+        <version>2.4</version>
+        <configuration>
+          <archive>
+            <manifest>
+              <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+              <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
+              <addClasspath>true</addClasspath>
+              <mainClass>peltomaa.sukija.Sukija</mainClass>
+              <classpathLayoutType>repository</classpathLayoutType>
+              <classpathPrefix>${user.home}/.m2/repository</classpathPrefix>
+            </manifest>
+          </archive>
         </configuration>
       </plugin>
 
@@ -60,7 +78,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
-        <version>2.10.3</version>
+        <version>2.10.4</version>
         <configuration>
           <show>package</show>
         </configuration>

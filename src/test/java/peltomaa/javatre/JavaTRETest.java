@@ -1,5 +1,5 @@
 /*
-Copyright (©) 2017 Hannu Väisänen
+Copyright (©) 2017-2018 Hannu Väisänen
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -56,6 +56,7 @@ public class JavaTRETest
   {
     // Do nothing, just check that setUp and tearDown complete successfully.
   }
+
 
 
   @Test
@@ -140,80 +141,10 @@ public class JavaTRETest
   @Test
   public void test8()
   {
-    final String s = "aabbbcccddd";
-    RE re = RE.compile ("x", REG_EXTENDED); // Non-fuzzy regex.
-    String[] u = re.split (s, 0);
-    assertTrue (u[0].compareTo(s) == 0);
-  }
-
-
-  @Test
-  public void test9()
-  {
-    final String s = "aabbbcccddd";
-    RE re = RE.compile ("x", REG_EXTENDED, p); // Fuzzy regex.
-    String[] u = re.split (s, 0);
-    assertTrue (u.length == s.length());
-    for (int i = 0; i < u.length; i++) {
-      assertTrue (u[i].compareTo("") == 0);
-    }
-  }
-
-
-  @Test
-  public void test10()
-  {
     String z = "To be or not to be or bee.";
     RE re = RE.compile ("be", REG_EXTENDED, p);
     Matcher m = re.matcher (z);
     String s = m.replaceAll ("X");
     assertTrue ("To X or not to X or XX.".equals(s));
-  }
-
-
-  @Test
-  public void test11()
-  {
-    String z = "Testataan ääkkösiä.";
-    RE re = RE.compile ("([äö])+", REG_EXTENDED, p);
-    Matcher m = re.matcher (z);
-
-    String[] u = {"ää", "ö", "ä", "."};
-    int s[] = {10, 14, 17, 18};
-    int e[] = {12, 15, 18, 19};
-    int i = 0;
-    while (m.find()) {
-      assertTrue (m.group().compareTo(u[i]) == 0);
-      assertTrue (m.start() == s[i]);
-      assertTrue (m.end() == e[i]);
-      i++;
-//      System.out.println (m.nmatch() + " " + m.start() + " " + m.end() + " " + m.group());
-    }
-  }
-
-
-  @Test
-  public void test12()
-  {
-    // This test is copied from TRE's Python binding.
-
-    TRE.regaparams_t.ByValue p = new AparamsBuilder().max_err(3).build();
-    RE re = RE.compile ("Don(ald( Ervin)?)? Knuth", REG_EXTENDED, p);
-    String data = "\nIn addition to fundamental contributions in several branches of\n" +
-                  "theoretical computer science, Donnald Erwin Kuth is the creator of the\n" +
-                  "TeX computer typesetting system, the related METAFONT font definition\n" +
-                  "language and rendering system, and the Computer Modern family of\n" +
-                  "typefaces.\n\n";
-    Matcher m = re.matcher (data);
-    if (m.wmatch()) {
-      int[] s = { 95,  99, 102};
-      int[] e = {113, 108, 108};
-      for (int i = 0; i < m.nmatch(); i++) {
-        assertTrue (m.start(i) == s[i]);
-        assertTrue (m.end(i) == e[i]);
-//        System.out.println (m.start(i) + " " + m.end(i));
-      }
-      assertTrue (m.group().compareTo("Donnald Erwin Kuth") == 0);
-    }
   }
 }
